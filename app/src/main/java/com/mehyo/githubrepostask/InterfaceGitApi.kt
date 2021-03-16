@@ -5,6 +5,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+//api interface using suspending function for network calls
 interface InterfaceGitApi {
     @GET("repositories")
     suspend fun getAPIResult(
