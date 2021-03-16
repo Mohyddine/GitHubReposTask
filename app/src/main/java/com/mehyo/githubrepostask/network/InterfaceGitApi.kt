@@ -1,6 +1,6 @@
-package com.mehyo.githubrepostask
+package com.mehyo.githubrepostask.network
 
-import retrofit2.Call
+import com.mehyo.githubrepostask.GitApiResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
