@@ -17,7 +17,7 @@ class GitDataSource:PageKeyedDataSource<Int,Item>() {
     val order:String="desc"
 
 companion object{
-    const val PAGE_SIZE=20
+    const val PAGE_SIZE=50
     const val FIRST_PAGE_Number=1
 }
     fun getPast30Days():String{

@@ -37,6 +37,7 @@ class GitAdapter:PagedListAdapter<Item, GitAdapter.GitViewHolder>(ITEM_COMPARATO
         private val repoOwnerName=binding.tvRepoOwner
         private val numberOfStars=binding.tvNumberOfStars
         private val numberOfIssues=binding.tvNumberOfIssues
+        private val lang=binding.tvLang
 
         fun bind(data: Item){
             var createdDate:String=data.created_at.dropLast(10)
@@ -71,7 +72,7 @@ class GitAdapter:PagedListAdapter<Item, GitAdapter.GitViewHolder>(ITEM_COMPARATO
                 placeholder(R.drawable.ic_image_place_holder)
                 transformations(CircleCropTransformation())
             }
-
+            lang.text=data.language
         }
     }
 
