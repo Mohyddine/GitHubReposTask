@@ -18,7 +18,7 @@ class GitViewModel: ViewModel() {
         liveDataSource=mItemDataSourceFactory.itemLiveDataSource
         val config=
             PagedList.Config.Builder()
-                .setEnablePlaceholders(true)
+                .setEnablePlaceholders(false)
                 .setPageSize(GitDataSource.PAGE_SIZE)
                 .build()
 

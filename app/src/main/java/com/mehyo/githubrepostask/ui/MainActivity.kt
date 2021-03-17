@@ -5,25 +5,43 @@ import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mehyo.githubrepostask.R
 import com.mehyo.githubrepostask.databinding.ActivityMainBinding
 import com.mehyo.githubrepostask.repo.GitViewModel
 
 class MainActivity : AppCompatActivity() {
+    lateinit var mAdapter:GitAdapter
+    lateinit var gitViewModel:GitViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val mAdapter=GitAdapter()
-        binding.recyclerView.layoutManager=LinearLayoutManager(this)
-        val gitViewHolder=ViewModelProvider(this).get(GitViewModel::class.java)
-        gitViewHolder.gitPagedList.observe(this, Observer {
-            Log.d("main", it.size.toString())
+        initRecyclerView(binding.recyclerView)
+        getData()
+    }
+    fun initRecyclerView(recyclerView: RecyclerView){
+        recyclerView.apply {
+            layoutManager=LinearLayoutManager(applicationContext)
+            mAdapter=GitAdapter()
+            adapter=mAdapter
+            val decoration = DividerItemDecoration(applicationContext, StaggeredGridLayoutManager.VERTICAL)
+            decoration.setDrawable(this.resources.getDrawable(R.drawable.shape,null))
+            addItemDecoration(decoration)
+        }
+    }
+
+    fun getData(){
+        gitViewModel=ViewModelProvider(this).get(GitViewModel::class.java)
+        gitViewModel.gitPagedList.observe(this, Observer {
             mAdapter.submitList(it)
             mAdapter.notifyDataSetChanged()
         })
-        binding.recyclerView.adapter=mAdapter
     }
+
 }

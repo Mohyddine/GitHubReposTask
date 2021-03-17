@@ -12,39 +12,41 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class GitDataSource:PageKeyedDataSource<Int,Item>() {
-    val past30days:String
+    val time:String=getPast30Days()
+    val sort:String="stars"
+    val order:String="desc"
 
-    init {
+companion object{
+    const val PAGE_SIZE=20
+    const val FIRST_PAGE_Number=1
+}
+    fun getPast30Days():String{
+        var past30days=""
         val calendar= Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_YEAR,-30)
         val formatter= SimpleDateFormat("yyyy-MM-dd")
         past30days=formatter.format(calendar.time)
+        return "created:>$past30days"
     }
-
-    val q="created:%3E$past30days"
-
-companion object{
-    const val PAGE_SIZE=30
-    const val FIRST_PAGE_Number=1
-    const val SORT_WITH="stars"
-    const val ORDER="desc"
-}
-
     override fun loadInitial(params: LoadInitialParams<Int>,
                              callback: LoadInitialCallback<Int, Item>) {
         GlobalScope.launch(Dispatchers.IO){
 
             try {
-                val response =RetrofitInstanceBuilder.apiService.getAPIResult(q, SORT_WITH, ORDER,
+                val response =RetrofitInstanceBuilder.apiService.getAPIResult(time,sort,order,
                     FIRST_PAGE_Number, PAGE_SIZE)
                 if(response.isSuccessful){
                     val apiResponse=response.body()!!
                     val responseItems=apiResponse.items
+                    Log.d("DataSource Good",response.toString())
 
                     responseItems?.let {
                         callback.onResult(responseItems,null, FIRST_PAGE_Number+1)
                     }
 
+                }
+                else{
+                    Log.d("DataSource Bad",response.toString())
                 }
             }catch (e:IOException){
                 Log.d("DataSource:loadInitial","IOException "+e.message)
@@ -56,7 +58,7 @@ companion object{
         GlobalScope.launch(Dispatchers.IO){
 
             try {
-                val response =RetrofitInstanceBuilder.apiService.getAPIResult(q, SORT_WITH, ORDER,
+                val response =RetrofitInstanceBuilder.apiService.getAPIResult(time,sort,order,
                     params.key, PAGE_SIZE)
                 if(response.isSuccessful){
                     val apiResponse=response.body()!!
@@ -78,7 +80,7 @@ companion object{
         GlobalScope.launch(Dispatchers.IO){
 
             try {
-                val response =RetrofitInstanceBuilder.apiService.getAPIResult(q, SORT_WITH, ORDER,
+                val response =RetrofitInstanceBuilder.apiService.getAPIResult(time,sort,order,
                     params.key, PAGE_SIZE)
                 if(response.isSuccessful){
                     val apiResponse=response.body()!!

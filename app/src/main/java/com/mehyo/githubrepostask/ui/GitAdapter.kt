@@ -1,6 +1,7 @@
 package com.mehyo.githubrepostask.ui
 
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
@@ -11,12 +12,14 @@ import coil.transform.CircleCropTransformation
 import com.mehyo.githubrepostask.Item
 import com.mehyo.githubrepostask.R
 import com.mehyo.githubrepostask.databinding.ItemRowBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-class GitAdapter:PagedListAdapter<Item,GitAdapter.GitViewHolder>(ITEM_COMPARATOR) {
+class GitAdapter:PagedListAdapter<Item, GitAdapter.GitViewHolder>(ITEM_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GitViewHolder {
-        val binding=ItemRowBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding=ItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return GitViewHolder(binding)
     }
 
@@ -35,8 +38,16 @@ class GitAdapter:PagedListAdapter<Item,GitAdapter.GitViewHolder>(ITEM_COMPARATOR
         private val numberOfStars=binding.tvNumberOfStars
         private val numberOfIssues=binding.tvNumberOfIssues
 
-        fun bind(data:Item){
-            repoOwnerName.text=data.owner.login
+        fun bind(data: Item){
+            var createdDate:String=data.created_at.dropLast(10)
+            val calendar= Calendar.getInstance()
+            val formatter= SimpleDateFormat("yyyy-MM-dd")
+            var today=formatter.format(calendar.time)
+            val dateStart: Date = formatter.parse(createdDate)
+            val dateEnd: Date = formatter.parse(today)
+            var diffDays = Math.round((dateEnd.getTime() - dateStart.getTime()) / 86400000.toDouble())
+
+            repoOwnerName.text="[Submitted ${diffDays} days ago by ${data.owner.login}]"
             repoName.text=data.name
             if(!TextUtils.isEmpty(data.description)) {
                 repoDescription.text = data.description
@@ -52,7 +63,7 @@ class GitAdapter:PagedListAdapter<Item,GitAdapter.GitViewHolder>(ITEM_COMPARATOR
                 numberOfStars.text="[Stars: ${data.stargazers_count}]"
             }
 
-            numberOfIssues.text="[Issues: ${data.open_issues_count}"
+            numberOfIssues.text="[Issues: ${data.open_issues_count}]"
 
             val url:String=data.owner.avatar_url
             avatarImage.load(url){
