@@ -10,11 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mehyo.githubrepostask.R
 import com.mehyo.githubrepostask.databinding.ActivityMainBinding
-import com.mehyo.githubrepostask.repo.GitViewModel
 
 class MainActivity : AppCompatActivity() {
     lateinit var mAdapter:GitAdapter
-    lateinit var gitViewModel:GitViewModel
+    lateinit var gitViewModel: GitViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +38,8 @@ class MainActivity : AppCompatActivity() {
     fun getData(){
         gitViewModel=ViewModelProvider(this).get(GitViewModel::class.java)
         gitViewModel.gitPagedList.observe(this, Observer {
-            mAdapter.submitList(it)
-            mAdapter.notifyDataSetChanged()
+                mAdapter.submitList(it)
+                mAdapter.notifyDataSetChanged()
         })
     }
 

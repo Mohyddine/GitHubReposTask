@@ -1,7 +1,6 @@
 package com.mehyo.githubrepostask.ui
 
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
