@@ -22,10 +22,6 @@ Features
 ● As a User I should be able to keep scrolling and new results should appear (pagination).
 
 libraries:
-    // Lifecycle components for "viewModel and livedata"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
     
     //Google Gson for model annotation
     implementation "com.google.code.gson:gson:2.8.6"
@@ -43,3 +39,8 @@ libraries:
 
     //coil url image loading library using kotlin coroutines
     implementation "io.coil-kt:coil:1.1.1"
+    
+    // Lifecycle components for "viewModel and livedata"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
