@@ -11,6 +11,7 @@ import okio.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+//DataSource that gets the Data sets using a PageKeyedDataSource
 class GitDataSource:PageKeyedDataSource<Int,Item>() {
     val time:String=getPast30Days()
     val sort:String="stars"
@@ -20,6 +21,7 @@ companion object{
     const val PAGE_SIZE=50
     const val FIRST_PAGE_Number=1
 }
+    //function to get the last 30 days
     fun getPast30Days():String{
         var past30days=""
         val calendar= Calendar.getInstance()
@@ -28,6 +30,8 @@ companion object{
         past30days=formatter.format(calendar.time)
         return "created:>$past30days"
     }
+    // function to load the Initial data
+    // using the retrofit network call with Initial page number
     override fun loadInitial(params: LoadInitialParams<Int>,
                              callback: LoadInitialCallback<Int, Item>) {
         GlobalScope.launch(Dispatchers.IO){
@@ -54,6 +58,8 @@ companion object{
         }
     }
 
+    // function to load the past data
+    // using the retrofit network call with decreased page number
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Item>) {
         GlobalScope.launch(Dispatchers.IO){
 
@@ -68,7 +74,6 @@ companion object{
                     responseItems?.let {
                         callback.onResult(responseItems,key)
                     }
-
                 }
             }catch (e:IOException){
                 Log.d("DataSource:loadBefore","IOException "+e.message)
@@ -76,6 +81,8 @@ companion object{
         }
     }
 
+    // function to load the new data
+    // using the retrofit network call with increased page number
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Item>) {
         GlobalScope.launch(Dispatchers.IO){
 
@@ -90,7 +97,6 @@ companion object{
                     responseItems?.let {
                         callback.onResult(responseItems,key)
                     }
-
                 }
             }catch (e:IOException){
                 Log.d("DataSource:loadAfter","IOException "+e.message)

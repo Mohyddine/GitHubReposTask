@@ -18,11 +18,13 @@ import java.util.*
 
 class GitAdapter:PagedListAdapter<Item, GitAdapter.GitViewHolder>(ITEM_COMPARATOR) {
 
+    //CreateViewHolder using view binding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GitViewHolder {
         val binding=ItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return GitViewHolder(binding)
     }
 
+    //onBindViewHolder binding the data from the data to the row
     override fun onBindViewHolder(holder: GitViewHolder, position: Int) {
         val item=getItem(position)
         item?.let {
@@ -30,6 +32,7 @@ class GitAdapter:PagedListAdapter<Item, GitAdapter.GitViewHolder>(ITEM_COMPARATO
         }
     }
 
+    //custom view holder with the bind function to bind the data to the item row views
     class GitViewHolder(val binding: ItemRowBinding):RecyclerView.ViewHolder(binding.root){
         private val avatarImage=binding.ivAvatar
         private val repoDescription=binding.tvRepoDesc
@@ -75,7 +78,7 @@ class GitAdapter:PagedListAdapter<Item, GitAdapter.GitViewHolder>(ITEM_COMPARATO
             lang.text=data.language
         }
     }
-
+    //checking for data change
     companion object{
         private val ITEM_COMPARATOR= object :DiffUtil.ItemCallback<Item>(){
             override fun areItemsTheSame(oldItem: Item, newItem: Item):

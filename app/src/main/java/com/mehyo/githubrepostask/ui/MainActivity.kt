@@ -2,7 +2,6 @@ package com.mehyo.githubrepostask.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -25,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         initRecyclerView(binding.recyclerView)
         getData()
     }
+    //RecyclerView initialization with dividerItemDecoration and setting the Adapter
     fun initRecyclerView(recyclerView: RecyclerView){
         recyclerView.apply {
             layoutManager=LinearLayoutManager(applicationContext)
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             addItemDecoration(decoration)
         }
     }
-
+    //get the data using the viewModel then submit inside the adapter
     fun getData(){
         gitViewModel=ViewModelProvider(this).get(GitViewModel::class.java)
         gitViewModel.gitPagedList.observe(this, Observer {

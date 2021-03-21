@@ -10,7 +10,7 @@ import java.util.*
 
 //api interface using suspending function for network calls
 interface InterfaceGitApi {
-
+    //suspending function for network calls
     @GET("repositories")
     suspend fun getAPIResult(
         @Query("q") q: String?,
